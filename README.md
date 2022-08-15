@@ -7,7 +7,7 @@
 ## Installation
 
 ```python
-git clone https://github.com/HSE-LAMBDA/roerich.git
+git clone https://github.com/HSE-LAMBDA/probaforms.git
 cd roerich
 pip install -e .
 ```
