@@ -1,0 +1,30 @@
+site_name: probaforms
+site_url: https://hse-lambda.github.io/probaforms/
+repo_url: https://github.com/HSE-LAMBDA/probaforms
+edit_uri: tree/main/docs
+repo_name: probaforms
+docs_dir: docs
+site_dir: site
+theme:
+    name: material
+    #features:
+    #  - navigation.tabs
+    #  - search.highlight
+markdown_extensions:
+    - markdown_include.include
+    - extra
+    - tables
+    - mdx_math:
+        enable_dollar_delimiter: True
+    - fenced_code
+    - pymdownx.highlight:
+        use_pygments: true
+    - pymdownx.superfences
+extra_javascript:
+    - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+plugins:
+  - mknotebooks
+  - search
+
+nav:
+    - Home: 'index.md'
