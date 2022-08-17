@@ -1,6 +1,7 @@
 # Welcome to probaforms
 
 [![Tests](https://github.com/HSE-LAMBDA/probaforms/actions/workflows/tests.yml/badge.svg)](https://github.com/HSE-LAMBDA/probaforms/actions/workflows/tests.yml)
+[![Docs](https://github.com/HSE-LAMBDA/probaforms/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/HSE-LAMBDA/probaforms/actions/workflows/pages/pages-build-deployment)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `Probaforms` is a python library of conditional Generative Adversarial Networks, Normalizing Flows, Variational Autoencoders and other generative models for tabular data. All models have a sklearn-like interface to enable rapid use in a variety of science and engineering applications.
@@ -20,6 +21,7 @@ poetry install
 ```
 
 ## Basic usage
+(See more examples in the [documentation](https://hse-lambda.github.io/roerich).)
 
 The following code snippet generates a noisy synthetic data, fits a conditional generative model, sample new objects, and displays the results.
 
@@ -44,6 +46,12 @@ plt.scatter(X_gen[y==0, 0], X_gen[y==0, 1])
 plt.scatter(X_gen[y==1, 0], X_gen[y==1, 1])
 plt.show()
 ```
+
+## Support
+
+- Home: [https://github.com/HSE-LAMBDA/probaforms](https://github.com/HSE-LAMBDA/probaforms)
+- Documentation: [https://hse-lambda.github.io/probaforms](https://hse-lambda.github.io/probaforms)
+- For any usage questions, suggestions and bugs use the [issue page](https://github.com/HSE-LAMBDA/probaforms/issues), please.
 
 ## Thanks to all our contributors
 
