@@ -21,7 +21,7 @@ poetry install
 ```
 
 ## Basic usage
-(See more examples in the [documentation](https://hse-lambda.github.io/roerich).)
+(See more examples in the [documentation](https://hse-lambda.github.io/probaforms).)
 
 The following code snippet generates a noisy synthetic data, fits a conditional generative model, sample new objects, and displays the results.
 
