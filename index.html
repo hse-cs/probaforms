@@ -259,6 +259,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    Support
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#thanks-to-all-our-contributors" class="md-nav__link">
     Thanks to all our contributors
   </a>
@@ -314,6 +321,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    Support
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#thanks-to-all-our-contributors" class="md-nav__link">
     Thanks to all our contributors
   </a>
@@ -340,6 +354,7 @@
 
 <h1 id="welcome-to-probaforms">Welcome to probaforms</h1>
 <p><a href="https://github.com/HSE-LAMBDA/probaforms/actions/workflows/tests.yml"><img alt="Tests" src="https://github.com/HSE-LAMBDA/probaforms/actions/workflows/tests.yml/badge.svg" /></a>
+<a href="https://github.com/HSE-LAMBDA/probaforms/actions/workflows/pages/pages-build-deployment"><img alt="Docs" src="https://github.com/HSE-LAMBDA/probaforms/actions/workflows/pages/pages-build-deployment/badge.svg" /></a>
 <a href="https://opensource.org/licenses/MIT"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a></p>
 <p><code>Probaforms</code> is a python library of conditional Generative Adversarial Networks, Normalizing Flows, Variational Autoencoders and other generative models for tabular data. All models have a sklearn-like interface to enable rapid use in a variety of science and engineering applications.</p>
 <h2 id="installation">Installation</h2>
@@ -351,6 +366,7 @@
 <div class="highlight"><pre><span></span><code>poetry install
 </code></pre></div>
 <h2 id="basic-usage">Basic usage</h2>
+<p>(See more examples in the <a href="https://hse-lambda.github.io/probaforms">documentation</a>.)</p>
 <p>The following code snippet generates a noisy synthetic data, fits a conditional generative model, sample new objects, and displays the results.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_moons</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -372,6 +388,12 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_gen</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_gen</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
+<h2 id="support">Support</h2>
+<ul>
+<li>Home: <a href="https://github.com/HSE-LAMBDA/probaforms">https://github.com/HSE-LAMBDA/probaforms</a></li>
+<li>Documentation: <a href="https://hse-lambda.github.io/probaforms">https://hse-lambda.github.io/probaforms</a></li>
+<li>For any usage questions, suggestions and bugs use the <a href="https://github.com/HSE-LAMBDA/probaforms/issues">issue page</a>, please.</li>
+</ul>
 <h2 id="thanks-to-all-our-contributors">Thanks to all our contributors</h2>
 <p><a href="https://github.com/HSE-LAMBDA/probaforms/graphs/contributors">
   <img src="https://contributors-img.web.app/image?repo=HSE-LAMBDA/probaforms" />
