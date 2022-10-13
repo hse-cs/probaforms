@@ -28,3 +28,5 @@ plugins:
 
 nav:
     - Home: 'index.md'
+    - Examples:
+      - Regression: examples/regression.ipynb
