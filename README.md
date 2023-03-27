@@ -10,7 +10,7 @@
 
 ```python
 git clone https://github.com/HSE-LAMBDA/probaforms.git
-cd roerich
+cd probaforms
 pip install -e .
 ```
 

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "probaforms"
-version = "0.1.0"
+version = "0.2.0"
 description = "Conditional generative models for tabular data with sklearn-like interface."
 authors = ["Mikhail Hushchyn <hushchyn.mikhail@gmail.com>"]
 license = "MIT"
