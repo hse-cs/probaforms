@@ -33,13 +33,10 @@ def _bootstrap_metric(metric_func, X_real, X_fake, n_iters=100, *args):
 
     scores = []
 
-    inds = np.arange(len(X_real))
-
     for i in range(n_iters):
-        inds_boot = resample(inds)
 
-        X_real_boot = X_real[inds_boot]
-        X_fake_boot = X_fake[inds_boot]
+        X_real_boot = resample(X_real)
+        X_fake_boot = resample(X_fake)
 
         score_boot = 0
         n_dim = X_real.shape[1]

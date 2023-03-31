@@ -35,16 +35,18 @@ def frechet_distance(X_real, X_fake, n_iters=100, standardize=False):
         X_real = X_scaler.fit_transform(X_real)
         X_fake = X_scaler.transform(X_fake)
 
-    inds = np.arange(len(X_real))
-
     for i in range(n_iters):
-        inds_boot = resample(inds)
 
-        X_real_boot = X_real[inds_boot]
-        X_fake_boot = X_fake[inds_boot]
+        X_real_boot = resample(X_real)
+        X_fake_boot = resample(X_fake)
 
         X_real_mean, X_real_cov = X_real_boot.mean(axis=0), np.cov(X_real_boot, rowvar=False)
         X_fake_mean, X_fake_cov = X_fake_boot.mean(axis=0), np.cov(X_fake_boot, rowvar=False)
+
+        if X_real_boot.shape[1] == 1:
+            X_real_cov = np.array([[X_real_cov]])
+        if X_fake_boot.shape[1] == 1:
+            X_fake_cov = np.array([[X_fake_cov]])
 
         diff = np.sum((X_real_mean - X_fake_mean)**2.0)
         covmean, _ = sqrtm(X_real_cov.dot(X_fake_cov), disp=False)

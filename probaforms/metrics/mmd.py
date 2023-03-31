@@ -37,7 +37,8 @@ def maximum_mean_discrepancy(X, Y, n_iters=100, standardize=True):
 
     for i in range(n_iters):
 
-        X_boot, Y_boot = resample(X, Y)
+        X_boot = resample(X)
+        Y_boot = resample(Y)
 
         agg_matrix = np.concatenate((X_boot, Y_boot), axis=0)
         distances = metrics.pairwise_distances(agg_matrix)
