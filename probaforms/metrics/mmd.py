@@ -4,7 +4,24 @@ import joblib
 from sklearn.utils import resample
 from sklearn.preprocessing import StandardScaler
 
-def maximum_mean_discrepancy(X, Y, n_iters=100, standardize=True):
+
+def mmd_calc(X, Y):
+
+    agg_matrix = np.concatenate((X, Y), axis=0)
+    distances = metrics.pairwise_distances(agg_matrix)
+    median_distance = np.median(distances)
+    gamma = 1.0 / (2 * median_distance**2)
+
+    XX = metrics.pairwise.rbf_kernel(X, X, gamma)
+    YY = metrics.pairwise.rbf_kernel(Y, Y, gamma)
+    XY = metrics.pairwise.rbf_kernel(X, Y, gamma)
+
+    mmd = XX.mean() + YY.mean() - 2 * XY.mean()
+
+    return mmd
+
+
+def maximum_mean_discrepancy(X, Y, n_iters=100, standardize=False):
     '''
     Calculates the Maximum Mean Discrepancy between real and fake samples.
 
@@ -40,16 +57,7 @@ def maximum_mean_discrepancy(X, Y, n_iters=100, standardize=True):
         X_boot = resample(X)
         Y_boot = resample(Y)
 
-        agg_matrix = np.concatenate((X_boot, Y_boot), axis=0)
-        distances = metrics.pairwise_distances(agg_matrix)
-        median_distance = np.median(distances)
-        gamma = 1.0 / (2 * median_distance**2)
-
-        XX = metrics.pairwise.rbf_kernel(X_boot, X_boot, gamma)
-        YY = metrics.pairwise.rbf_kernel(Y_boot, Y_boot, gamma)
-        XY = metrics.pairwise.rbf_kernel(X_boot, Y_boot, gamma)
-
-        mmd_boot = XX.mean() + YY.mean() - 2 * XY.mean()
+        mmd_boot = mmd_calc(X_boot, Y_boot)
         mmds.append(mmd_boot)
 
     return np.mean(mmds), np.std(mmds)
