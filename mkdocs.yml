@@ -30,3 +30,4 @@ nav:
     - Home: 'index.md'
     - Examples:
       - Regression: examples/regression.ipynb
+      - Metrics usage: examples/metrics.ipynb
