@@ -74,6 +74,7 @@ def _js1d_kde(data1, data2, bins=101):
 
 def kullback_leibler_1d(X_real, X_fake, n_iters=100, bins=10):
     '''
+    [Not recommended to use]
     Calculates the Kullback-Leibler divergence for real and fake samples.
     The function calculates metric values for each input feature,
     and then averaged them.
@@ -102,6 +103,7 @@ def kullback_leibler_1d(X_real, X_fake, n_iters=100, bins=10):
 
 def jensen_shannon_1d(X_real, X_fake, n_iters=100, bins=10):
     '''
+    [Not recommended to use]
     Calculates the Jensen-Shannon divergence for real and fake samples.
     The function calculates metric values for each input feature,
     and then averaged them.
