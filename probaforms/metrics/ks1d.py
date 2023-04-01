@@ -1,11 +1,23 @@
 import numpy as np
 from sklearn.utils import resample
-from scipy.stats import ks_2samp
+from scipy.stats import ks_2samp, cramervonmises_2samp
+from sklearn.metrics import roc_auc_score
 
 
 def _ks1d(data1, data2):
     ks, _ = ks_2samp(data1, data2)
     return ks
+
+def _cvm1d(x, y):
+    res = cramervonmises_2samp(x, y)
+    return res.statistic
+
+def _roc1d(x, y):
+    labels = np.array([0]*len(x) + [1]*len(y))
+    score = np.concatenate((x, y), axis=0)
+    auc = roc_auc_score(labels, score)
+    auc = np.abs(auc - 0.5) + 0.5
+    return auc
 
 
 def _bootstrap_metric(metric_func, X_real, X_fake, n_iters=100, *args):
@@ -74,3 +86,55 @@ def kolmogorov_smirnov_1d(X_real, X_fake, n_iters=100):
     '''
 
     return _bootstrap_metric(_ks1d, X_real, X_fake, n_iters)
+
+
+def cramer_von_mises_1d(X_real, X_fake, n_iters=100):
+    '''
+    Calculates the Cramer-von Mises statistics for real and fake samples.
+    The function calculates metric values for each input feature,
+    and then averaged them.
+
+    Parameters:
+    -----------
+    X_real: numpy.ndarray of shape [n_samples, n_features]
+        Real sample.
+    X_fake: numpy.ndarray of shape [n_samples, n_features]
+        Generated sample.
+    n_iters: int
+        The number of bootstrap iterations. Default = 100.
+
+    Return:
+    -------
+    distance: float
+        The estimated KS statistics.
+    Std: fload
+        The standard deviation of the distance.
+    '''
+
+    return _bootstrap_metric(_cvm1d, X_real, X_fake, n_iters)
+
+
+def roc_auc_score_1d(X_real, X_fake, n_iters=100):
+    '''
+    Calculates Area Under the Receiver Operating Characteristic Curve (ROC AUC) for real and fake samples.
+    The function calculates metric values for each input feature,
+    and then averaged them.
+
+    Parameters:
+    -----------
+    X_real: numpy.ndarray of shape [n_samples, n_features]
+        Real sample.
+    X_fake: numpy.ndarray of shape [n_samples, n_features]
+        Generated sample.
+    n_iters: int
+        The number of bootstrap iterations. Default = 100.
+
+    Return:
+    -------
+    distance: float
+        The estimated KS statistics.
+    Std: fload
+        The standard deviation of the distance.
+    '''
+
+    return _bootstrap_metric(_roc1d, X_real, X_fake, n_iters)
