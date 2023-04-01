@@ -23,6 +23,7 @@ def mmd_calc(X, Y):
 
 def maximum_mean_discrepancy(X, Y, n_iters=100, standardize=False):
     '''
+    [Computationally expensive. Recommended for samples size < 5000]
     Calculates the Maximum Mean Discrepancy between real and fake samples.
 
     Parameters:
