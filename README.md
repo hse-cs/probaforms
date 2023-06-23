@@ -10,7 +10,7 @@
 
 ## Implemented conditional models
 - Variational Autoencoder (CVAE)
-- Wassertein GAN (WGAN)
+- Wasserstein GAN (WGAN)
 - Real NVP
 
 ## Installation
