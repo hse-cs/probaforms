@@ -1,13 +1,23 @@
 # Welcome to probaforms
 
+[![PyPI version](https://badge.fury.io/py/probaforms.svg)](https://badge.fury.io/py/probaforms)
 [![Tests](https://github.com/HSE-LAMBDA/probaforms/actions/workflows/tests.yml/badge.svg)](https://github.com/HSE-LAMBDA/probaforms/actions/workflows/tests.yml)
 [![Docs](https://github.com/HSE-LAMBDA/probaforms/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/HSE-LAMBDA/probaforms/actions/workflows/pages/pages-build-deployment)
+[![Downloads](https://static.pepy.tech/badge/probaforms)](https://pepy.tech/project/probaforms)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `Probaforms` is a python library of conditional Generative Adversarial Networks, Normalizing Flows, Variational Autoencoders and other generative models for tabular data. All models have a sklearn-like interface to enable rapid use in a variety of science and engineering applications.
 
-## Installation
+## Implemented conditional models
+- Variational Autoencoder (CVAE)
+- Wasserstein GAN (WGAN)
+- Real NVP
 
+## Installation
+```
+pip install probaforms
+```
+or
 ```python
 git clone https://github.com/HSE-LAMBDA/probaforms.git
 cd probaforms
