@@ -5,8 +5,7 @@ from torch.utils.data import TensorDataset, DataLoader
 from torch.autograd import Variable
 import os
 
-
-if DEVICE:=os.environ.get('device'):
+if DEVICE := os.environ.get('device'):
     DEVICE = torch.device(DEVICE)
 else:
     DEVICE = torch.device('cpu')
@@ -21,11 +20,11 @@ class InvertibleLayer(nn.Module):
     var_size: int
         Input vector size.
     '''
+
     def __init__(self, var_size):
         super(InvertibleLayer, self).__init__()
 
         self.var_size = var_size
-
 
     def f(self, X, C):
         '''
@@ -47,7 +46,6 @@ class InvertibleLayer(nn.Module):
         '''
         pass
 
-
     def g(self, X, C):
         '''
         Implementation of backward (inverse) pass.
@@ -67,7 +65,6 @@ class InvertibleLayer(nn.Module):
         pass
 
 
-
 class NormalizingFlow(nn.Module):
     '''
     Normalizing Flow model interface.
@@ -85,7 +82,6 @@ class NormalizingFlow(nn.Module):
 
         self.layers = nn.ModuleList(layers)
         self.prior = prior
-
 
     def log_prob(self, X, C):
         '''
@@ -116,7 +112,6 @@ class NormalizingFlow(nn.Module):
 
         return log_likelihood.mean()
 
-
     def sample(self, C):
         '''
         Sample new objects based on the give conditions.
@@ -132,7 +127,7 @@ class NormalizingFlow(nn.Module):
             Generated sample.
         '''
 
-        if type(C) == type(1):
+        if isinstance(C, int):
             n = C
             C = None
         else:

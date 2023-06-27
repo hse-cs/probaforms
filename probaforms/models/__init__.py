@@ -1,6 +1,12 @@
 from .realnvp import RealNVP
 
+from .residual import ResidualUnconditional
+from .residual import ResidualConditional
+from .residual import ResidualFlowModel
 
 __all__ = [
-    'RealNVP'
+    'RealNVP',
+    'ResidualConditional',
+    'ResidualUnconditional',
+    'ResidualFlowModel',
 ]
