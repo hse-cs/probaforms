@@ -13,9 +13,7 @@ from .modules import ActNorm, InvertibleResLinear
 class BaseResidualFlow(nn.Module):
     def __init__(self, var_dim, cond_dim=None, out_dim=None, n_layers=6):
         super().__init__()
-        '''
-        Pass concat [X, y] if conditioning, return only y
-        '''
+        '''Pass concat [X, y] if conditioning, return only y'''
 
         self.var_dim = var_dim
         self.cond_dim = cond_dim
@@ -80,7 +78,7 @@ class ResidualFlowModel(BaseResidualFlow):
         return z, log_df_dz
 
 
-# ======================== Wrappers =======================
+# =========================== Wrappers ==========================
 
 
 class BaseFlowWrapper(object):
@@ -115,26 +113,27 @@ class BaseFlowWrapper(object):
         self.normal = MultivariateNormal(self.mu, self.var)
 
     def fit(self, X: torch.tensor, cond: torch.tensor = None):
-        '''
-        Fits diffusion
-        :param X: input objects tensor of shape (B, var_dim)
-        :param cond: condition tensor of shape (B, cond_dim)
-        '''
+        """
+        Fits flow
+        Args:
+            X: input objects tensor of shape (B, var_dim)
+            cond: condition tensor of shape (B, cond_dim)
+        """
         raise NotImplemented
 
     def sample(self):
-        '''
-        Samples objects from normal noise
-        '''
+        """Samples objects from normal noise"""
         raise NotImplemented
 
     def loss(self, z, logdet):
-        '''
+        """
         Computes loss (likelihood), see slide 20:
         https://github.com/HSE-LAMBDA/DeepGenerativeModels/blob/spring-2021/lectures/8-NF.pdf
-        :param z: predicted data
-        :param logdet: computed logdet Jacobian
-        '''
+        Args:
+            z: predicted data
+            logdet: computed logdet Jacobian
+        Returns: mean negative log-likehood loss log(p(z)) = log(p(g(z)) + logdet Jg(z)
+        """
         return -(self.normal.log_prob(z) + logdet).mean()
 
     def checkpoint(self):
@@ -191,12 +190,13 @@ class ResidualUnconditional(BaseFlowWrapper):
         return losses
 
     def sample(self, N: int, batched=None):
-        '''
+        """
         Samples N objects from estimated distribution
-            :param N: number of objects to sample
-            :param batched: None if no batchification, else int -- batch_size
-        '''
-
+        Args:
+            N: number of objects to sample
+            batched: None if no batchification, else int -- batch_size
+        Returns: new objects
+        """
         if batched is not None:
             batch_size = batched
             n_batches = N // batch_size
@@ -254,8 +254,7 @@ class ResidualConditional(BaseFlowWrapper):
         return losses
 
     def sample(self, X_cond: torch.Tensor, batched=True):
-        '''Samples object from condition of the X_cond's shape'''
-
+        """Samples objects from condition of the X_cond's shape"""
         td = TensorDataset(X_cond)
         if batched is not None:
             batch_size = batched

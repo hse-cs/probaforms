@@ -6,13 +6,13 @@ import numpy as np
 # ==================== logdet estimators for residual flow ========================
 
 def logdet_Jg_exact(g, x):
-    '''
+    """
     Exact logdet determinant computation (naive forehead approach)
-
-    :param g: outputs g(x)
-    :param x: inputs to g function (optimized network)
-    :return: log(I + Jg(x)), where Jg(x) is the Jacobian defined as dg(x) / dx
-    '''
+    Args:
+        g: outputs g(x)
+        x: inputs to g function (optimized network)
+    Returns: log(I + Jg(x)), where Jg(x) is the Jacobian defined as dg(x) / dx
+    """
 
     var_dim = g.shape[1]
 
@@ -27,7 +27,7 @@ def logdet_Jg_exact(g, x):
 
 
 def logdet_Jg_cutoff(g, x, n_samples=1, n_power_series=8):
-    '''
+    """
     Biased logdet estimator with FIXED (!) number of trace's series terms, see paper, eq. (7)
     Skilling-Hutchinson trace estimator is used to estimate the trace of Jacobian matrices
 
@@ -37,13 +37,14 @@ def logdet_Jg_cutoff(g, x, n_samples=1, n_power_series=8):
     terms and m is the number of residual blocks in the entire network. This is extremely memory-hungry
     during training, and a large random sample of n can occasionally result in running out of memory
 
-    :param g: outputs g(x)
-    :param x: inputs to g function (optimized network)
-    :param n_samples: number of v samples
-    :param n_power_series: fixed number of computed terms, param n in paper
-    :return: log determinant approximation using FIXED (!) length cutoff for infinite series
+    Args:
+        g: outputs g(x)
+        x: inputs to g function (optimized network)
+        n_samples: number of v samples
+        n_power_series:  fixed number of computed terms, param n in paper
+    Returns: log determinant approximation using FIXED (!) length cutoff for infinite series
             which can be used with residual block f(x) = x + g(x)
-    '''
+    """
 
     var_dim = g.shape[1]
 
@@ -52,8 +53,10 @@ def logdet_Jg_cutoff(g, x, n_samples=1, n_power_series=8):
     v = v.type_as(x).to(x.device)
 
     # v^T Jg -- vector-Jacobian product
-    w_t_J_fn = lambda w, x=x, g=g: torch.autograd.grad(
-        g, x, grad_outputs=w, retain_graph=True, create_graph=True)[0]
+    def w_t_J_fn(w):
+        new_w = torch.autograd.grad(g, x, grad_outputs=w, retain_graph=True, create_graph=True)[0]
+        new_w = new_w[:, :var_dim].reshape(new_w.shape[0], -1)  # x = [y, cond], derivatives only w.r.t. y
+        return new_w
 
     sum_diag = 0.0
     w = v.clone()
@@ -70,7 +73,7 @@ def logdet_Jg_cutoff(g, x, n_samples=1, n_power_series=8):
 
 
 def logdet_Jg_unbias(g, x, n_samples=1, p=0.5, n_exact=1, is_training=True):
-    '''
+    """
     Unbiased logdet estimator with UNFIXED (!) number of trace's series terms, see paper, eq. (6), also see eq. (8)
     Number of terms is sampled by geometric distribution
     Skilling-Hutchinson trace estimator is used to estimate the trace of Jacobian matrices
@@ -79,15 +82,16 @@ def logdet_Jg_unbias(g, x, n_samples=1, p=0.5, n_exact=1, is_training=True):
     requirement by a factor of n. This is especially useful when using the unbiased estimator as the
     memory will be constant regardless of the number of terms we draw from p(N)
 
-    :param g: outputs g(x)
-    :param x: inputs to g function (optimized network)
-    :param n_samples: number of v samples
-    :param p: geometric distribution parameter
-    :param n_exact: number of terms to be exactly computed
-    :param is_training: True if training phase else False
-    :return: log determinant approximation using unbiased series length sampling (UNFIXED LEN)
+    Args:
+        g: outputs g(x)
+        x: inputs to g function (optimized network)
+        n_samples: number of v samples
+        p: geometric distribution parameter
+        n_exact: number of terms to be exactly computed
+        is_training: True if training phase else False
+    Returns: log determinant approximation using unbiased series length sampling (UNFIXED LEN)
             which can be used with residual block f(x) = x + g(x)
-    '''
+    """
 
     '''
     In conditional case inputs x = [y, cond] of shape (var_dim + cond_dim)
@@ -119,22 +123,22 @@ def logdet_Jg_unbias(g, x, n_samples=1, p=0.5, n_exact=1, is_training=True):
 
 
 def logdet_Jg_neumann(g, x, n_samples=1, p=0.5, n_exact=1):
-    '''
+    """
     Unbiased Neumann logdet estimator see paper with russian roulette applied, see paper, eq. (8) and app. C
     Provides Neumann gradient series with russian roulette and trace estimator applied to obtain the theorem (8)
+    Args:
+        g: outputs g(x)
+        x: inputs to g function (optimized network)
+        n_samples: number of v samples
+        p: geometric distribution parameter
+        n_exact: number of terms to be exactly computed
+    Returns: log determinant approximation using unbiased series length sampling
 
-    :param g: outputs g(x)
-    :param x: inputs to g function (optimized network)
-    :param n_samples: number of v samples
-    :param p: geometric distribution parameter
-    :param n_exact: number of terms to be exactly computed
-    :return: log determinant approximation using unbiased series length sampling
-     ---
     NOTE: this method using neumann series does not return exact "log_df_dz"
     but the one that can be only used in gradient wrt parameters
     see: https://github.com/rtqichen/residual-flows/blob/f9dd4cd0592d1aa897f418e25cae169e77e4d692/lib/layers/iresblock.py#L249
     and: https://github.com/tatsy/normalizing-flows-pytorch/blob/f5238fa8ce62a130679a1cf4474e195926b4842f/flows/iresblock.py#L84
-    '''
+    """
 
     '''
     In conditional case inputs x = [y, cond] of shape (var_dim + cond_dim)
@@ -176,10 +180,9 @@ class MemorySavedLogDetEstimator(torch.autograd.Function):
     Memory saving logdet estimator, see paper, 3.2 and app. C
     Provides custom memory-saving backprop
     """
-
     @staticmethod
     def forward(ctx, logdet_fn, x, net_g_fn, training, *g_params):
-        '''
+        """
         Args:
             ctx: context object (see https://pytorch.org/docs/stable/autograd.html#function)
             logdet_fn: logdet estimator function for loss calculation
@@ -191,7 +194,7 @@ class MemorySavedLogDetEstimator(torch.autograd.Function):
         Returns:
             g(x): outputs g for inputs x
             logdet: estimated logdet
-        '''
+        """
 
         ctx.training = training
         with torch.enable_grad():

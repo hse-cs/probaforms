@@ -122,9 +122,7 @@ class LipSwish(nn.Module):
 
 
 class InvertibleResBlockBase(nn.Module):
-    """
-    invertible residual block
-    """
+    """ invertible residual block"""
     def __init__(self, coeff=0.97, ftol=1e-4, logdet_estimator='unbias', n_backward_iters=100):
         super(InvertibleResBlockBase, self).__init__()
 
@@ -184,9 +182,9 @@ class InvertibleResBlockBase(nn.Module):
             logdet = self.logdet_fn(self.g_fn(x), x)
         return new_x_var, log_df_dz - logdet
 
-    # def backward(self, z, log_df_dz):
-    #     new_x_var = z[:, :self.var_dim] - self.g_fn(z)
-    #     return new_x_var, 0.0
+    def simple_backward(self, z, log_df_dz=0.0):
+        new_x_var = z[:, :self.var_dim] - self.g_fn(z)
+        return new_x_var, log_df_dz
 
 
 class ResBackbone(nn.Module):
