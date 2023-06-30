@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import pytest
+import itertools
 
 from probaforms.models.interfaces import GenModel
 from probaforms.models import PlainBackboneResidual
@@ -31,8 +32,10 @@ def test_without_conditions(model):
     assert X_gen.shape == X.shape
 
 
-@pytest.mark.parametrize("is_cond", [(True), (False)])
-def test_ddpm(is_cond):
+is_conds = [True, False]
+devices = ['cpu', 'cuda']
+@pytest.mark.parametrize("is_cond,device", list(itertools.product(is_conds, devices)))
+def test_ddpm(is_cond, device):
     n = 100
     X = torch.from_numpy(np.random.normal(size=(n, 5))).to(torch.float32)
     y = torch.from_numpy(np.random.normal(size=(n, 2))).to(torch.float32)
@@ -50,6 +53,7 @@ def test_ddpm(is_cond):
         'use_cond_emb': is_cond,
         'cond_hid_dim': None,
         'cond_output_dim': 4 * len_X if is_cond else None,
+        'device': device,
     }
 
     backbone = PlainBackboneResidual(**backbone_args_dict)
