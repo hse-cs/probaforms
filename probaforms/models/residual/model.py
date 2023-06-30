@@ -1,5 +1,6 @@
 import os
 from tqdm import tqdm
+from typing import Union
 
 import torch
 import torch.nn as nn
@@ -79,7 +80,8 @@ class ResidualFlowModel(nn.Module):
 class BaseFlowWrapper(object):
     def __init__(self, var_dim, cond_dim=None, n_layers=6, hid_dim=32, n_block_layers=2,
                      spnorm_coeff=0.97, logdet='unbias', n_backward_iters=100,
-                     optimizer=None, batch_size=64, n_epochs=100, scheduler=None, checkpoint_dir=None, device='cpu'):
+                     optimizer=None, batch_size=64, n_epochs=100, checkpoint_dir=None, device='cpu',
+                     scheduler=None, **scheduler_kwargs):
         """
         Args:
             var_dim: target data size
@@ -134,7 +136,7 @@ class BaseFlowWrapper(object):
         """
         raise NotImplemented
 
-    def sample(self, input, batch_size=None):
+    def sample(self, input: Union[torch.tensor, int], batch_size=None):
         """
         Samples objects from condition of the X_cond's shape
         Args:
@@ -183,9 +185,10 @@ class BaseFlowWrapper(object):
 class ResidualFlow(BaseFlowWrapper):
     def __init__(self, var_dim, cond_dim=None, n_layers=6, hid_dim=32, n_block_layers=2,
                  spnorm_coeff=0.97, logdet='unbias', n_backward_iters=100,
-                 optimizer=None, batch_size=64, n_epochs=10, scheduler=None, checkpoint_dir=None, device='cpu'):
+                 optimizer=None, batch_size=64, n_epochs=10, checkpoint_dir=None, device='cpu',
+                 scheduler=None, **scheduler_kwargs):
         super().__init__(var_dim, cond_dim, n_layers, hid_dim, n_block_layers, spnorm_coeff, logdet, n_backward_iters,
-                 optimizer, batch_size, n_epochs, scheduler, checkpoint_dir, device)
+                 optimizer, batch_size, n_epochs, checkpoint_dir, device, scheduler, **scheduler_kwargs)
 
     def fit(self, Y: torch.Tensor, X_cond: torch.Tensor = None):
         if X_cond is not None:
@@ -226,7 +229,7 @@ class ResidualFlow(BaseFlowWrapper):
         self.load_from_checkpoint()
         return losses
 
-    def sample(self, input, batch_size=None):
+    def sample(self, input: Union[torch.tensor, int], batch_size=None):
         N = None; X_cond = None
         if isinstance(input, int):
             N = input

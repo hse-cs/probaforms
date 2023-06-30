@@ -4,7 +4,6 @@ import torch
 import itertools
 
 from probaforms.models.interfaces import GenModel
-
 from probaforms.models import ResidualFlow
 
 
