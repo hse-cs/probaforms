@@ -206,7 +206,7 @@ class BaseDiffusionWrapper(object):
         """
         raise NotImplemented
 
-    def sample(self, input, batch_size=None):
+    def sample(self, input: Union[torch.tensor, int], batch_size=None):
         """Samples objects from normal noise"""
         raise NotImplemented
 
