@@ -44,8 +44,9 @@ def test_without_conditions(model):
 
 logdets = ['exact', 'fixed', 'unbias']
 is_conds = [True, False]
-@pytest.mark.parametrize("logdet,is_cond", list(itertools.product(logdets, is_conds)))
-def test_resflow(logdet, is_cond):
+devices = ['cpu', 'cuda']
+@pytest.mark.parametrize("logdet,device,is_cond", list(itertools.product(logdets, devices, is_conds)))
+def test_resflow(logdet, device, is_cond):
     n = 100
     X = torch.from_numpy(np.random.normal(size=(n, 5))).to(torch.float32)
     y = torch.from_numpy(np.random.normal(size=(n, 3))).to(torch.float32)
@@ -60,6 +61,7 @@ def test_resflow(logdet, is_cond):
         'spnorm_coeff': 0.95,
         'n_backward_iters': 100,
         'logdet': logdet,
+        'device': device,
     }
 
     wrapper = ResidualFlow(**flow_args_dict, n_epochs=50, batch_size=100)
