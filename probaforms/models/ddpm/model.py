@@ -168,9 +168,9 @@ class DiffusionMLP(BaseDiffusion):
 
 class BaseDiffusionWrapper(object):
     def __init__(self, backbone: BaseBackbone, betas=(1e-4, 1e-2), beta_grid='linear', sigma_method='beta',
-                 optimizer=None, loss_fn=nn.MSELoss(), batch_size=64, n_epochs=10, checkpoint_dir=None,
+                 optimizer=None, loss_fn=nn.MSELoss(), batch_size=64, n_epochs=10, checkpoint_dir=None, device='cpu',
                  scheduler=None, **scheduler_kwargs):
-        self.dfm = DiffusionMLP(backbone, betas, beta_grid, sigma_method)
+        self.dfm = DiffusionMLP(backbone.to(device), betas, beta_grid, sigma_method)
 
         if optimizer is not None:
             self.optim = optimizer
@@ -235,10 +235,10 @@ class BaseDiffusionWrapper(object):
 
 class DDPM(BaseDiffusionWrapper):
     def __init__(self, backbone: BaseBackbone, betas=(1e-4, 1e-2), beta_grid='linear', sigma_method='beta',
-                 optimizer=None, loss_fn=nn.MSELoss(), batch_size=64, n_epochs=10, checkpoint_dir=None,
+                 optimizer=None, loss_fn=nn.MSELoss(), batch_size=64, n_epochs=10, checkpoint_dir=None, device='cpu',
                  scheduler=None, **scheduler_kwargs):
         super().__init__(backbone, betas, beta_grid, sigma_method,
-                         optimizer, loss_fn, batch_size, n_epochs, checkpoint_dir, scheduler, **scheduler_kwargs)
+                         optimizer, loss_fn, batch_size, n_epochs, checkpoint_dir, device, scheduler, **scheduler_kwargs)
 
     def fit(self, Y: torch.Tensor, X_cond: torch.Tensor = None):
         if X_cond is not None:
