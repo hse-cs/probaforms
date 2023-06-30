@@ -3,7 +3,6 @@ import torch
 import pytest
 
 from probaforms.models.interfaces import GenModel
-
 from probaforms.models import PlainBackboneResidual
 from probaforms.models import DDPM
 

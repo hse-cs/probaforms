@@ -1,6 +1,6 @@
 import os
 from tqdm import tqdm
-from typing import Optional
+from typing import Union
 
 import torch
 from torch import nn
@@ -289,7 +289,7 @@ class DDPM(BaseDiffusionWrapper):
         self.load_from_checkpoint()
         return losses
 
-    def sample(self, input, batch_size=None):
+    def sample(self, input: Union[torch.tensor, int], batch_size=None):
         N = None; X_cond = None
         if isinstance(input, int):
             N = input
