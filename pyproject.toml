@@ -1,9 +1,14 @@
 [tool.poetry]
 name = "probaforms"
-version = "0.1.0"
-description = "Conditional generative models for tabular data with sklearn-like interface."
+version = "0.2.0"
+description = "Synthetic data generation for tables."
+readme = "README.md"
 authors = ["Mikhail Hushchyn <hushchyn.mikhail@gmail.com>"]
+repository = "https://github.com/HSE-LAMBDA/probaforms"
+documentation = "https://hse-lambda.github.io/probaforms/"
 license = "MIT"
+
+keywords = ["synthetic data", "augmentation", "generative models", "normalizing flows", "VAE", "GAN"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
