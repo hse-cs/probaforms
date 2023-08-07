@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from torch.utils.data import TensorDataset, DataLoader
 from torch.autograd import Variable
 import os
-
+from tqdm.notebook import tqdm
 from probaforms.models.interfaces import GenModel
 from probaforms.models.nflow import InvertibleLayer, NormalizingFlow
 
@@ -150,10 +150,15 @@ class RealNVP(GenModel):
         Learning rate.
     weight_decay: float
         L2 regularization coefficient.
+    verbose: int
+        Controls the verbosity: the higher, the more messages.
+        - >0: a progress bar for epochs is displayed;
+        - >1: loss function value for each epoch is also displayed;
+        - >2: loss function value for each batch is also displayed.
     '''
 
     def __init__(self, n_layers=8, hidden=(10,), activation='tanh',
-                       batch_size=32, n_epochs=10, lr=0.0001, weight_decay=0):
+                       batch_size=32, n_epochs=10, lr=0.0001, weight_decay=0, verbose=0):
         super(RealNVP, self).__init__()
 
         self.n_layers = n_layers
@@ -163,6 +168,7 @@ class RealNVP(GenModel):
         self.n_epochs = n_epochs
         self.lr = lr
         self.weight_decay = weight_decay
+        self.verbose = verbose
 
         self.prior = None
         self.nf = None
@@ -225,9 +231,10 @@ class RealNVP(GenModel):
             dataset = TensorDataset(X)
 
         criterion = nn.MSELoss()
-
-        for epoch in range(self.n_epochs):
-            for batch in DataLoader(dataset, batch_size=self.batch_size, shuffle=True):
+        
+        _range = range(self.n_epochs) if self.verbose<1 else tqdm(range(self.n_epochs), unit='epoch')
+        for epoch in _range:
+            for i, batch in enumerate(DataLoader(dataset, batch_size=self.batch_size, shuffle=True)):
 
                 X_batch = batch[0].to(DEVICE)
                 if C is not None:
@@ -245,6 +252,14 @@ class RealNVP(GenModel):
 
                 # caiculate and store loss
                 self.loss_history.append(loss.detach().cpu())
+                
+                if self.verbose >= 2:
+                    display_delta = max(1, (X.shape[0] // self.batch_size) // self.verbose)
+                    if i % display_delta == 0:
+                        _range.set_description(f"loss: {loss:.4f}")
+            
+            if self.verbose == 1:
+                _range.set_description(f"loss: {loss:.4f}")
 
 
     def sample(self, C=100):
