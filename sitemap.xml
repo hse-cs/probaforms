@@ -2,27 +2,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://hse-lambda.github.io/probaforms/</loc>
-         <lastmod>2023-04-01</lastmod>
+         <lastmod>2023-08-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://hse-lambda.github.io/probaforms/examples/2-time-series-gan/</loc>
+         <lastmod>2023-08-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hse-lambda.github.io/probaforms/examples/Untitled/</loc>
-         <lastmod>2023-04-01</lastmod>
+         <lastmod>2023-08-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hse-lambda.github.io/probaforms/examples/Untitled1/</loc>
-         <lastmod>2023-04-01</lastmod>
+         <lastmod>2023-08-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://hse-lambda.github.io/probaforms/examples/Untitled2/</loc>
+         <lastmod>2023-08-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://hse-lambda.github.io/probaforms/examples/Untitled3/</loc>
+         <lastmod>2023-08-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://hse-lambda.github.io/probaforms/examples/forecast/</loc>
+         <lastmod>2023-08-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hse-lambda.github.io/probaforms/examples/metrics/</loc>
-         <lastmod>2023-04-01</lastmod>
+         <lastmod>2023-08-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://hse-lambda.github.io/probaforms/examples/regression-Copy1/</loc>
+         <lastmod>2023-08-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://hse-lambda.github.io/probaforms/examples/regression-Copy2/</loc>
+         <lastmod>2023-08-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hse-lambda.github.io/probaforms/examples/regression/</loc>
-         <lastmod>2023-04-01</lastmod>
+         <lastmod>2023-08-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
