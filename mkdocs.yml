@@ -30,4 +30,5 @@ nav:
     - Home: 'index.md'
     - Examples:
       - Regression: examples/regression.ipynb
+      - Time Series Forecast: examples/forecast.ipynb
       - Metrics usage: examples/metrics.ipynb
