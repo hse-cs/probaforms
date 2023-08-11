@@ -4,6 +4,7 @@ import torch.nn.functional as F
 from torch.utils.data import TensorDataset, DataLoader
 from torch.autograd import Variable
 from .interfaces import GenModel
+from tqdm.notebook import tqdm
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # DEVICE = torch.device('cpu')
@@ -134,10 +135,15 @@ class CVAE(GenModel):
         L2 regularization coefficient.
     KL_weight: float
         Weight of variational part of the loss function.
+    verbose: int
+        Controls the verbosity: the higher, the more messages.
+        - >0: a progress bar for epochs is displayed;
+        - >1: loss function value for each epoch is also displayed;
+        - >2: loss function value for each batch is also displayed.
     '''
 
     def __init__(self, latent_dim=2, hidden=(10,), activation='tanh', batch_size=32, n_epochs=10, lr=0.0001,
-                 weight_decay=0, KL_weight=0.001):
+                 weight_decay=0, KL_weight=0.001, verbose=0):
         super(CVAE, self).__init__()
 
         self.lat_size = latent_dim
@@ -149,6 +155,7 @@ class CVAE(GenModel):
         self.lr = lr
         self.weight_decay = weight_decay
         self.KL_weight = KL_weight
+        self.verbose = verbose
 
         self.criterion = nn.MSELoss()
         self.opt = None
@@ -225,7 +232,8 @@ class CVAE(GenModel):
         self.loss_history = []
 
         # Fit CVAE
-        for epoch in range(self.n_epochs):
+        _range = range(self.n_epochs) if self.verbose<1 else tqdm(range(self.n_epochs), unit='epoch')
+        for epoch in _range:
             for i, abatch in enumerate(DataLoader(dataset_real, batch_size=self.batch_size, shuffle=True)):
                 # caiculate loss
                 if C is None:
@@ -237,6 +245,11 @@ class CVAE(GenModel):
                 self.opt.zero_grad()
                 loss.backward()
                 self.opt.step()
+                
+                if self.verbose >= 2:
+                    display_delta = max(1, (X.shape[0] // self.batch_size) // self.verbose)
+                    if i % display_delta == 0:
+                        _range.set_description(f"loss: {loss:.4f}")
 
             # caiculate and store loss after an epoch
             if C is None:
@@ -244,6 +257,9 @@ class CVAE(GenModel):
             else:
                 loss_epoch = self.compute_loss(X_real, C_cond)
             self.loss_history.append(loss_epoch.detach().cpu())
+            
+            if self.verbose == 1:
+                _range.set_description(f"loss: {loss_epoch:.4f}")
 
         # Turn off training
         self.encoder.train(False)

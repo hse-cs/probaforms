@@ -4,6 +4,7 @@ import torch.nn.functional as F
 from torch.utils.data import TensorDataset, DataLoader
 from torch.autograd import Variable
 from .interfaces import GenModel
+from tqdm.notebook import tqdm
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -132,12 +133,17 @@ class ConditionalWGAN(GenModel):
             L2 regularization coefficient.
         n_critic: float
             The number of learning iterations of the discriminator per one iteration of the generator. n_critic > 1
-        '''
+        verbose: int
+            Controls the verbosity: the higher, the more messages.
+            - >0: a progress bar for epochs is displayed;
+            - >1: loss functions values for each epoch are also displayed;
+            - >2: loss functions values for each batch are also displayed.
+    '''
 
     def __init__(self, latent_dim=1,
                  generator_hidden=(100, 100), discriminator_hidden=(100, 100),
                  generator_activation='relu', discriminator_activation='relu',
-                 batch_size=32, n_epochs=1000, lr=0.00005, weight_decay=0, n_critic=5):
+                 batch_size=32, n_epochs=1000, lr=0.00005, weight_decay=0, n_critic=5, verbose=0):
         super(ConditionalWGAN, self).__init__()
 
         self.generator_hidden = generator_hidden
@@ -150,6 +156,7 @@ class ConditionalWGAN(GenModel):
         self.lr = lr
         self.weight_decay = weight_decay
         self.n_critic = n_critic
+        self.verbose = verbose
 
         self.generator = None
         self.discriminator = None
@@ -212,7 +219,8 @@ class ConditionalWGAN(GenModel):
 
         iter_i = 0
         # Fit GAN
-        for epoch in range(self.n_epochs):
+        _range = range(self.n_epochs) if self.verbose<1 else tqdm(range(self.n_epochs), unit='epoch')
+        for epoch in _range:
             for i, abatch in enumerate(DataLoader(dataset_real, batch_size=self.batch_size, shuffle=True)):
 
                 # generate a batch of fake observations
@@ -238,6 +246,13 @@ class ConditionalWGAN(GenModel):
                     # Clip weights of discriminator
                     for p in self.discriminator.parameters():
                         p.data.clamp_(-0.01, 0.01)
+                    
+                    if self.verbose >= 2:
+                        display_delta = max(1, (X.shape[0] // self.batch_size) // self.verbose)
+                        if i % display_delta == 0:
+                            loss_to_display = (loss_gen.detach().numpy(), loss_disc.detach().numpy())
+                            _range.set_description(f"G loss: {loss_to_display[0]:.4f}, D loss: {loss_to_display[1]:.4f}")
+                    
                 else:
                     ### Generator
                     if C is None:
@@ -248,8 +263,18 @@ class ConditionalWGAN(GenModel):
                     self.opt_gen.zero_grad()
                     loss_gen.backward()
                     self.opt_gen.step()
+                    
+                    if (self.verbose >= 2) and (epoch != 0):
+                        display_delta = max(1, (X.shape[0] // self.batch_size) // self.verbose)
+                        if i % display_delta == 0:
+                            loss_to_display = (loss_gen.detach().numpy(), loss_disc.detach().numpy())
+                            _range.set_description(f"G loss: {loss_to_display[0]:.4f}, D loss: {loss_to_display[1]:.4f}")
 
                 iter_i += 1
+            
+            if self.verbose == 1:
+                loss_to_display = (loss_gen.detach().numpy(), loss_disc.detach().numpy())
+                _range.set_description(f"G loss: {loss_to_display[0]:.4f}, D loss: {loss_to_display[1]:.4f}")
 
             # calculate and store loss after an epoch
             Z_noise = torch.normal(0, 1, (len(X_real), self.latent_dim))
