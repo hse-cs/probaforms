@@ -9,7 +9,6 @@ from tqdm.auto import tqdm  # type: ignore
 from probaforms.models.interfaces import GenModel
 from probaforms.models.nflow import InvertibleLayer, NormalizingFlow
 
-
 DEVICE = torch.device('cpu')
 DistType = torch.distributions.distribution.Distribution
 
@@ -71,7 +70,7 @@ class RealNVPLayer(InvertibleLayer):
         
         if activation not in ('tanh', 'relu'):
             warnings.warn("Unsupported activation function in Discriminator, setting to ReLU")
-
+        
         self.device = device
         self.mask = mask.to(DEVICE)
         self.nn_t = gen_network(var_size + cond_size, var_size, hidden, activation)
@@ -173,7 +172,7 @@ class RealNVP(GenModel):
                  device: torch.device = DEVICE,
                  verbose: int = 0) -> None:
         super(RealNVP, self).__init__()
-
+        
         self.n_layers = n_layers
         self.hidden = hidden
         self.activation = activation
@@ -244,10 +243,10 @@ class RealNVP(GenModel):
             dataset = TensorDataset(X_tens, C_tens)
         else:
             dataset = TensorDataset(X_tens)
-
+        
         loss: torch.Tensor = torch.zeros(1)
         _range = range(self.n_epochs) if self.verbose < 1 else tqdm(range(self.n_epochs), unit='epoch')
-
+        
         for epoch in _range:
             for i, batch in enumerate(DataLoader(dataset, batch_size=self.batch_size, shuffle=True)):
                 
@@ -296,5 +295,8 @@ class RealNVP(GenModel):
         else:
             C_tens = torch.tensor(C, dtype=torch.float32, device=DEVICE)
             X = self.nf.sample(C_tens)
-
+        
         return X.cpu().detach().numpy()
+
+
+__all__ = ['RealNVP']

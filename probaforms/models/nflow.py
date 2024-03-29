@@ -143,3 +143,6 @@ class NormalizingFlow(nn.Module):
             X = layer.g(X, C_cond)
 
         return X
+
+
+__all__ = ['NormalizingFlow', 'InvertibleLayer']
