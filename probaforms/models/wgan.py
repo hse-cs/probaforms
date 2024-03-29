@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
-from tqdm.notebook import tqdm  # type: ignore
+from tqdm.auto import tqdm  # type: ignore
 
 from .interfaces import GenModel
 
