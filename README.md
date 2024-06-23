@@ -19,7 +19,7 @@ pip install probaforms
 ```
 or
 ```python
-git clone https://github.com/HSE-LAMBDA/probaforms.git
+git clone https://github.com/hse-cs/probaforms
 cd probaforms
 pip install -e .
 ```
@@ -31,7 +31,7 @@ poetry install
 ```
 
 ## Basic usage
-(See more examples in the [documentation](https://hse-lambda.github.io/probaforms).)
+(See more examples in the [documentation](https://hse-cs.github.io/probaforms).)
 
 The following code snippet generates a noisy synthetic data, fits a conditional generative model, sample new objects, and displays the results.
 
@@ -59,9 +59,9 @@ plt.show()
 
 ## Support
 
-- Home: [https://github.com/HSE-LAMBDA/probaforms](https://github.com/HSE-LAMBDA/probaforms)
-- Documentation: [https://hse-lambda.github.io/probaforms](https://hse-lambda.github.io/probaforms)
-- For any usage questions, suggestions and bugs use the [issue page](https://github.com/HSE-LAMBDA/probaforms/issues), please.
+- Home: [https://github.com/hse-cs/probaforms](https://github.com/hse-cs/probaforms)
+- Documentation: [https://hse-cs.github.io/probaforms](https://hse-cs.github.io/probaforms)
+- For any usage questions, suggestions and bugs use the [issue page](https://github.com/hse-cs/probaforms/issues), please.
 
 ## Thanks to all our contributors
 
