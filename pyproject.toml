@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "probaforms"
-version = "0.2.0"
+version = "0.2.1"
 description = "Synthetic data generation for tables."
 readme = "README.md"
 authors = ["Mikhail Hushchyn <hushchyn.mikhail@gmail.com>"]
@@ -15,7 +15,7 @@ python = "^3.8"
 numpy = "^1.22.1"
 pandas = "^1.4.2"
 scikit-learn = "^1.0.2"
-torch = "^1.11.0"
+torch = "^2.0.0"
 tqdm = "^4.64.0"
 matplotlib = "^3.5.1"
 
