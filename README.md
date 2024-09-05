@@ -11,11 +11,12 @@
 ## Implemented conditional models
 
 [//]: # (Use Vancouver reference style below)
-| **Model**  |     **Type**      | **Paper**                                                                                                                                                                                             | 
-|:----------:|:-----------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|    CVAE    |        VAE        | Kingma DP, Welling M. [Auto-encoding variational bayes](https://openreview.net/forum?id=33X9fd2-9FyZd). [arXiv:1312.6114](https://arxiv.org/abs/1312.6114). ICLR 2014.                                |
-|    WGAN    |        GAN        | Arjovsky M, Chintala S, Bottou L. [Wasserstein generative adversarial networks](https://proceedings.mlr.press/v70/arjovsky17a.html). [arXiv:1701.07875](https://arxiv.org/abs/1701.07875). ICML 2017. |
-|  Real NVP  | Normalizing Flow  | Dinh L, Sohl-Dickstein J, Bengio S. [Density estimation using real nvp](https://openreview.net/forum?id=HkpbnH9lx).  [arXiv:1605.08803](https://arxiv.org/abs/1605.08803). ICLR 2017.                 |
+|     **Model**     |     **Type**     | **Paper**                                                                                                                                                                                             | 
+|:-----------------:|:----------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ConditionalNormal |       MDN        | Bishop CM. [Mixture density networks](https://publications.aston.ac.uk/id/eprint/373/1/NCRG_94_004.pdf). 1994.                                                                                                                                                        |
+|       CVAE        |       VAE        | Kingma DP, Welling M. [Auto-encoding variational bayes](https://openreview.net/forum?id=33X9fd2-9FyZd). [arXiv:1312.6114](https://arxiv.org/abs/1312.6114). ICLR 2014.                                |
+|  ConditionalWGAN  |       GAN        | Arjovsky M, Chintala S, Bottou L. [Wasserstein generative adversarial networks](https://proceedings.mlr.press/v70/arjovsky17a.html). [arXiv:1701.07875](https://arxiv.org/abs/1701.07875). ICML 2017. |
+|      RealNVP      | Normalizing Flow | Dinh L, Sohl-Dickstein J, Bengio S. [Density estimation using real nvp](https://openreview.net/forum?id=HkpbnH9lx).  [arXiv:1605.08803](https://arxiv.org/abs/1605.08803). ICLR 2017.                 |
 
 
 ## Installation
