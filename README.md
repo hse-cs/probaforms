@@ -9,9 +9,14 @@
 `Probaforms` is a python library of conditional Generative Adversarial Networks, Normalizing Flows, Variational Autoencoders and other generative models for tabular data. All models have a sklearn-like interface to enable rapid use in a variety of science and engineering applications.
 
 ## Implemented conditional models
-- Variational Autoencoder (CVAE)
-- Wasserstein GAN (WGAN)
-- Real NVP
+
+[//]: # (Use Vancouver reference style below)
+| **Model**  |     **Type**      | **Paper**                                                                                                                                                                                             | 
+|:----------:|:-----------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|    CVAE    |        VAE        | Kingma DP, Welling M. [Auto-encoding variational bayes](https://openreview.net/forum?id=33X9fd2-9FyZd). [arXiv:1312.6114](https://arxiv.org/abs/1312.6114). ICLR 2014.                                |
+|    WGAN    |        GAN        | Arjovsky M, Chintala S, Bottou L. [Wasserstein generative adversarial networks](https://proceedings.mlr.press/v70/arjovsky17a.html). [arXiv:1701.07875](https://arxiv.org/abs/1701.07875). ICML 2017. |
+|  Real NVP  | Normalizing Flow  | Dinh L, Sohl-Dickstein J, Bengio S. [Density estimation using real nvp](https://openreview.net/forum?id=HkpbnH9lx).  [arXiv:1605.08803](https://arxiv.org/abs/1605.08803). ICLR 2017.                 |
+
 
 ## Installation
 ```
